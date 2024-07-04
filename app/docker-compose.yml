@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  node:
+    image: node-app
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    environment:
+      UUID: "{{ .Task.Slot }}"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
